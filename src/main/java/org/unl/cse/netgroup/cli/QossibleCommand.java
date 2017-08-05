@@ -19,15 +19,15 @@ import org.apache.karaf.shell.commands.Command;
 import org.onosproject.cli.AbstractShellCommand;
 
 /**
- * Sample Apache Karaf CLI command
+ * QoSsible  CLI info command
  */
-@Command(scope = "onos", name = "sample",
-         description = "Sample Apache Karaf CLI command")
+@Command(scope = "qossible", name = "info",
+         description = "QoSsible CLI information")
 public class QossibleCommand extends AbstractShellCommand {
 
     @Override
     protected void execute() {
-        print("Hello %s", "World");
+        print("Welcome to %s", "QoSsible ");
     }
 
 }
