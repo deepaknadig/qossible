@@ -1,0 +1,22 @@
+sudo: required
+
+language: java
+
+services:
+  - docker
+
+before_install:
+- docker pull onosproject/onos
+- CID=$(docker run -d onosproject/onos)
+- docker ps -a
+- git clone https://git.deepaknadig.com/deepak/qossible.git
+- cd qossible
+- export ONOS_WEB_USER=onos
+- export ONOS_WEB_PASS=rocks
+- ifconfig
+- D_IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID})
+
+script:
+- mvn clean install
+- curl -sS --user $ONOS_WEB_USER:$ONOS_WEB_PASS -X POST -HContent-Type:application/octet-stream $D_IP:8181/onos/v1/applications?activate=true --data-binary @target/qossible-1.0.0.oar
+
