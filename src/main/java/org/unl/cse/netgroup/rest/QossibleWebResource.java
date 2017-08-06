@@ -18,7 +18,9 @@ package org.unl.cse.netgroup.rest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.onosproject.rest.AbstractWebResource;
-import org.unl.cse.netgroup.GetOvsDeviceInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.unl.cse.netgroup.QossibleOVSConfigurator;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -36,11 +38,13 @@ import java.io.InputStream;
 @Path("")
 public class QossibleWebResource extends AbstractWebResource {
 
-    private static GetOvsDeviceInfo getOvsDeviceInfo;
+    private static Logger log = LoggerFactory.getLogger(QossibleWebResource.class);
+
+    private static QossibleOVSConfigurator ovsConfigurator;
     private final ObjectNode root = mapper().createObjectNode();
 
     /**
-     * Get hello world greeting.
+     * Get QoSsible App Info.
      *
      * @return 200 OK
      */
@@ -51,18 +55,24 @@ public class QossibleWebResource extends AbstractWebResource {
         return ok(node).build();
     }
 
+    /**
+     * Post Open vSwitch device info for configuration
+     *
+     * @onos.rsModel post-device-id
+     * @return 200 OK
+     */
     @POST
     @Path("device-id")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getOpenVswitchDeviceInfo(InputStream stream) {
-        getOvsDeviceInfo = JsonToDeviceInfo(stream);
+        ovsConfigurator = JsonToDeviceInfo(stream);
+        ovsConfigurator.ConfigureOvsDevice();
 
-        String msg = "SUCCESS";
         return Response.ok(root).build();
     }
 
-    private GetOvsDeviceInfo JsonToDeviceInfo(InputStream stream) {
+    private QossibleOVSConfigurator JsonToDeviceInfo(InputStream stream) {
         JsonNode node;
 
         try {
@@ -71,10 +81,11 @@ public class QossibleWebResource extends AbstractWebResource {
             throw new IllegalArgumentException("Unable to parse the QoSsible device-id POST");
         }
 
-        String ovsDeviceId = node.path("device-id").asText();
+        String ovsDeviceId = node.path("device-id").asText(null);
 
+        log.info("Pinged!");
         if (ovsDeviceId != null) {
-            return new GetOvsDeviceInfo(ovsDeviceId);
+            return new QossibleOVSConfigurator(ovsDeviceId);
         } else {
             throw new IllegalArgumentException("Arguments cannot be null.");
         }

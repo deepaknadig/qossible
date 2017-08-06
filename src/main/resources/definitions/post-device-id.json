@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "required": [
+    "device-id"
+  ],
+  "properties": {
+    "device-id": {
+      "type": "string",
+      "example": "ovsdb:127.0.0.1"
+    }
+  }
+}

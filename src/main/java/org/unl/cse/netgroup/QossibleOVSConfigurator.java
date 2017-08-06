@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Created by Deepak Nadig Anantha <deepnadig@gmail.com> on 8/4/17.
+ * Configures a REST POSTed Open vSwitch device to load the "ovs" driver
  */
-public class GetOvsDeviceInfo {
+public class QossibleOVSConfigurator {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     private String ovsDeviceId;
@@ -19,7 +19,7 @@ public class GetOvsDeviceInfo {
     private DeviceId ovsDevice;
 
     // Constructor
-    public GetOvsDeviceInfo(String ovsDeviceId) {
+    public QossibleOVSConfigurator(String ovsDeviceId) {
         this.ovsDeviceId = ovsDeviceId;
     }
 
@@ -27,7 +27,7 @@ public class GetOvsDeviceInfo {
     public void ConfigureOvsDevice() {
         // convert string to DeviceId
         ovsDevice = DeviceId.deviceId(this.ovsDeviceId);
-        log.info("Configure OVS Device %s.", ovsDevice.toString());
+        log.info("Configuring the Open vSwitch Device {}.", ovsDevice.toString());
 
         // TODO: 8/4/17 @deepak Add Device to a store to check if device is already configured.
 
@@ -36,6 +36,6 @@ public class GetOvsDeviceInfo {
         BasicDeviceConfig config = configService.addConfig(ovsDevice, BasicDeviceConfig.class);
         config.driver("ovs");
         configService.applyConfig(DeviceId.deviceId(this.ovsDeviceId),BasicDeviceConfig.class, config.node());
-        log.info("Device %s configuration complete.", ovsDevice.toString());
+        log.info("Device {} configuration complete.", ovsDevice.toString());
     }
 }
