@@ -29,7 +29,7 @@ public class GetOvsDeviceInfo {
         ovsDevice = DeviceId.deviceId(this.ovsDeviceId);
         log.info("Configure OVS Device %s.", ovsDevice.toString());
 
-        // TODO: 8/4/17 Add Device to a store to check if device is already configured. 
+        // TODO: 8/4/17 @deepak Add Device to a store to check if device is already configured.
 
         // configure the device
         NetworkConfigService configService = DefaultServiceDirectory.getService(NetworkConfigService.class);
