@@ -20,6 +20,7 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
+import org.onosproject.core.ApplicationId;
 import org.onosproject.core.CoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,12 +34,15 @@ public class QossibleComponent {
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     protected CoreService coreService;
 
+    private ApplicationId appId;
+    private static final String APP_NAME = "org.unl.cse.netgroup.qossible";
+
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Activate
     protected void activate() {
         log.info("Started QoSsible App");
-
+//        appId = coreService.registerApplication(APP_NAME);
     }
 
     @Deactivate

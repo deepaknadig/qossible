@@ -68,8 +68,22 @@ public class QossibleWebResource extends AbstractWebResource {
     public Response getOpenVswitchDeviceInfo(InputStream stream) {
         ovsConfigurator = JsonToDeviceInfo(stream);
         ovsConfigurator.ConfigureOvsDevice();
+//        ovsConfigurator.GetQosInfo();
 
         return Response.ok(root).build();
+    }
+
+    /**
+     * Get Open vSwitch Queue.
+     *
+     * @return 200 OK
+     */
+    @GET
+    @Path("query-queues")
+    public Response getQueryQueueConfiguration() {
+        ovsConfigurator.GetQueueInfo();
+        ObjectNode node = mapper().createObjectNode().put("Info", "QoSsible App");
+        return ok(node).build();
     }
 
     private QossibleOVSConfigurator JsonToDeviceInfo(InputStream stream) {
@@ -83,7 +97,6 @@ public class QossibleWebResource extends AbstractWebResource {
 
         String ovsDeviceId = node.path("device-id").asText(null);
 
-        log.info("Pinged!");
         if (ovsDeviceId != null) {
             return new QossibleOVSConfigurator(ovsDeviceId);
         } else {

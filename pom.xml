@@ -39,6 +39,9 @@
         <onos.app.category>default</onos.app.category>
         <onos.app.url>http://onosproject.org</onos.app.url>
         <onos.app.readme>ONOS OSGi bundle archetype.</onos.app.readme>
+        <onos.app.requires>org.onosproject.ovsdb</onos.app.requires>
+        <onos.app.requires>org.onosproject.openflow-base</onos.app.requires>
+        <onos.app.requires>org.onosproject.drivers.ovsdb</onos.app.requires>
 	<!--        -->
     </properties>
 
